@@ -28,7 +28,7 @@ public class SortedRank
 		{
 			String title = lineText.toString();     
 			String[] s= title.split("\t");			
-			String[] s1 = s[1].split("#####");      
+			String[] s1 = s[1].split(" ");      
 
 			context.write(new DoubleWritable(Double.parseDouble(s1[1])),new Text(s[0]));   
 		}
