@@ -34,7 +34,7 @@ public class TotalPages
 
 			if(!line.isEmpty())
 			{
-				context.write(new Text("a"),one);   
+				context.write(new Text("$"),one);   
 			}
 		}
 	}
