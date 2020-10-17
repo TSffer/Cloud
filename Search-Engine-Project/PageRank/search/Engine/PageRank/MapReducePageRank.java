@@ -23,7 +23,7 @@ public class MapReducePageRank
 			String[] pages={""};
 			if(l2[0].contains("@@@@@"))
 			{       
-				pages= l2[0].split("@@@@@");
+				pages= l2[0].split(" ");
 				context.write(new Text(l[0]), new Text("link"+"\t"+l2[0]));		
 				for(String outlink: pages)
 				{			
@@ -84,7 +84,7 @@ public class MapReducePageRank
 			if(val==1)
 			{
 				fpr = 0.85*sum_ranks+0.15;        
-				context.write(new Text(srt),new Text(temp+"#####"+fpr));    
+				context.write(new Text(srt),new Text(temp+" "+fpr));    
 			}
 		}
 	}
