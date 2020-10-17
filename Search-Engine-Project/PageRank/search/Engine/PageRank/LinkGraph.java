@@ -30,7 +30,7 @@ public class LinkGraph
 	public static class Map extends Mapper<LongWritable, Text ,Text ,Text> 
 	{
 		private final static IntWritable one  = new IntWritable(1);
-		private Text count  = new Text("NumberOfPages");
+		private Text count  = new Text("NumPages");
 
 		Pattern linkPat = Pattern.compile("\\[\\[.*]\\]");
 
