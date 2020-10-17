@@ -58,7 +58,7 @@ public class PageRank extends Configured  implements Tool
 		try
 		{
 			FileSystem fs = FileSystem.get(config);      
-			Path input_path= new Path(args[1]+"/part-r-00000");    
+			Path input_path= new Path(args[1]);    
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(fs.open(input_path)));
 			String line;
@@ -84,7 +84,7 @@ public class PageRank extends Configured  implements Tool
 		job2.setJarByClass(this.getClass());
 
 		FileInputFormat.addInputPaths(job2, args[0]);
-		FileOutputFormat.setOutputPath(job2, new Path(args[1]+"/finalpagerank0"));
+		FileOutputFormat.setOutputPath(job2, new Path(args[1]+"pagerank"));
 		job2.setMapperClass(LinkGraph.Map .class);
 		job2.setReducerClass(LinkGraph.Reduce.class);
 		job2.setOutputKeyClass(Text.class);
@@ -98,10 +98,10 @@ public class PageRank extends Configured  implements Tool
 		
 		for(int i=0; i<20; i++)
 		{      								
-			Job job3  = Job.getInstance(getConf(), " FinalPageRank ");
+			Job job3  = Job.getInstance(getConf(), " PageRank ");
 			Configuration conf = new Configuration();
-			String input = args[1]+"/finalpagerank"+i;			
-			String output = args[1]+"/finalpagerank"+(i+1);	
+			String input = args[1]+"/pagerank"+i;			
+			String output = args[1]+"/pagerank"+(i+1);	
 			FileSystem fs = FileSystem.get(conf);
 
 			job3.setJarByClass( this .getClass());
@@ -117,15 +117,13 @@ public class PageRank extends Configured  implements Tool
 			numReduceT = 1;
 			job3.setNumReduceTasks(numReduceT);
 			
-			job3.waitForCompletion(true);
-
-			fs.delete(new Path(input),true);    		
+			job3.waitForCompletion(true);		
 		}
 
-		String input_outpath= args[1]+"/finalpagerank20/part-r-00000";  
+		String input_outpath= args[1]+"/pagerank";  
 		String outpath= args[1]+"/sorted";							
 
-		Job job4 = Job .getInstance(getConf(), " FinalSortedRank ");
+		Job job4 = Job .getInstance(getConf(), " SortedRank ");
 		Configuration config2= new Configuration();
 		job4.setJarByClass(this.getClass());
 		FileSystem fs1= FileSystem.get(config2);   
@@ -138,7 +136,7 @@ public class PageRank extends Configured  implements Tool
 		job4.setMapOutputValueClass(Text.class);
 		job4.setOutputKeyClass(Text.class);
 		job4.setOutputValueClass(DoubleWritable.class);
-		Path a= new Path(args[1]+"/finalpagerank20"); 
+		Path a= new Path(args[1]+"/pagerank"); 
 		job4.setSortComparatorClass(sorting_comp.class); 
 		
 		numReduceT = 1;
