@@ -121,51 +121,7 @@ public class PageRank extends Configured  implements Tool
 		}
 
 		String input_outpath= args[1]+"/pagerank";  
-		String outpath= args[1]+"/sorted";							
-
-		Job job4 = Job .getInstance(getConf(), " SortedRank ");
-		Configuration config2= new Configuration();
-		job4.setJarByClass(this.getClass());
-		FileSystem fs1= FileSystem.get(config2);   
-
-		FileInputFormat.addInputPaths(job4, input_outpath);
-		FileOutputFormat.setOutputPath(job4, new Path(outpath));
-		job4.setMapperClass(SortedRank.Map.class);
-		job4.setReducerClass(SortedRank.Reduce.class);
-		job4.setMapOutputKeyClass( DoubleWritable.class);
-		job4.setMapOutputValueClass(Text.class);
-		job4.setOutputKeyClass(Text.class);
-		job4.setOutputValueClass(DoubleWritable.class);
-		Path a= new Path(args[1]+"/pagerank"); 
-		job4.setSortComparatorClass(sorting_comp.class); 
-		
-		numReduceT = 1;
-		job4.setNumReduceTasks(numReduceT);
-
-		job4.waitForCompletion( true); 
-		fs1.delete(a,true);  
+		String outpath= args[1]+"/sorted";							 
 		return 0;
-	}
-}
-
-class sorting_comp extends WritableComparator 
-{ 
-	protected sorting_comp()
-	{
-		super (DoubleWritable.class, true);        
-	}
-
-	@Override
-	public int compare(@SuppressWarnings("rawtypes") WritableComparable c1, @SuppressWarnings("rawtypes") WritableComparable c2)
-	{
-		DoubleWritable val1 = (DoubleWritable) c1;     
-		DoubleWritable val2 = (DoubleWritable) c2;		
-
-		int sorted_res = val1.compareTo(val2); 
-		if(sorted_res == 0)
-		{					
-			sorted_res = val1.compareTo(val2);
-		}
-		return sorted_res*-1;  
 	}
 }
