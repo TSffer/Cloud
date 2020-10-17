@@ -42,7 +42,8 @@ public class SortedRank
 			for (Text count: counts)
 			{
 				context.write(count, word);       
-			}
+			} 
+			
 		}
 	}
 }
