@@ -32,7 +32,7 @@ public class LinkGraph
 		private final static IntWritable one  = new IntWritable(1);
 		private Text count  = new Text("NumberOfPages");
 
-		Pattern linkPat = Pattern.compile("\\[\\[.*?]\\]");
+		Pattern linkPat = Pattern.compile("\\[\\[.*]\\]");
 
 		public void map(LongWritable offset, Text lineText, Context context) throws  IOException,  InterruptedException 
 		{
@@ -50,7 +50,7 @@ public class LinkGraph
 			
 			while(m1.find()) 
 			{ 
-				String url = m1.group().replace("[[", "").replace("]]", "");
+				String url = m1.group().replace("[", " ").replace("]", " ");
 				if(!url.isEmpty())
 				{
 					outlinks.add(i, url);     
@@ -68,7 +68,7 @@ public class LinkGraph
 					out_link +=s;
 				}else
 				{
-					out_link +="@@@@@"+s;       
+					out_link +="@"+s;       
 				}
 				flag++;    
 				outlinks=new ArrayList<String>();    
